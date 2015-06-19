@@ -1,0 +1,13 @@
+html{
+	-webkit-user-select:none;
+}
+
+#actionWindow{
+	text-align: center;
+}
+
+#actionCanvas{
+	background-color: white;
+	border: 1px solid black;
+	display: inline;
+}
