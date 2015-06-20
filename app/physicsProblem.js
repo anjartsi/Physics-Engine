@@ -8,6 +8,11 @@ red.shap='square';
 red.col='red';
 red.initialize();
 
+var shadow = new Thing(300,200);
+shadow.bigness=25;
+shadow.col='';
+shadow.path.rect((shadow.posX-shadow.bigness),(shadow.posY-shadow.bigness),(2*shadow.bigness),(2*shadow.bigness))
+shadow.initialize();
 // var blue = new Mobile(10,10);
 // blue.bigness = 50;
 // blue.vx= 250;

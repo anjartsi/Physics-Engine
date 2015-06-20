@@ -85,14 +85,17 @@ Mobile.prototype.draw = function(ctx) {
 	ctx.fill(this.path);
 	/*********************************************************** 
 	Add text inside the object of its (x,y)
-	// ctx.save();
-	// ctx.fillStyle='black';
-	// ctx.translate(this.posX,this.posY);
-	// ctx.textAlign='center'
-	// ctx.scale(1,-1);
-	// ctx.fillText('( '+this.posX+' , '+this.posY+' )',0,0)
-	// ctx.restore();
-	**********************************************************/
+		**********************************************************/
+	ctx.restore();
+}
+
+Mobile.prototype.addText = function() {
+	ctx.save();
+	ctx.fillStyle='black';
+	ctx.translate(this.posX,this.posY);
+	ctx.textAlign='center'
+	ctx.scale(1,-1);
+	ctx.fillText('( '+this.posX+' , '+this.posY+' )',0,0)
 	ctx.restore();
 }
 // Changes all the properties of the mobile object after each time increment
@@ -101,10 +104,11 @@ Mobile.prototype.incrementTime = function(dt) {
 	var x0 = this.posX;//Where the object WOULD have been
 	var dx=0;
 	var te = 0.5*this.m*v0*v0+this.fx*x0;
-	this.posX+= this.vx*(dt/1000);
-	this.posY+= this.vy*(dt/1000);
-	this.vx+=this.fx/this.m*dt/1000;
-	this.vy+=this.fy/this.m*dt/1000;
+	te = this.totalE();
+	if(this.vx){this.posX+= this.vx*(dt/1000);}
+	if(this.vy){this.posY+= this.vy*(dt/1000);}
+	if(this.fx){this.vx+=this.fx/this.m*dt/1000;}
+	if(this.fy){this.vy+=this.fy/this.m*dt/1000;}
 	
 	if(this.bounced){
 		if(this.bouncedOff instanceof Wall){
@@ -116,7 +120,8 @@ Mobile.prototype.incrementTime = function(dt) {
 				// The object is magically moved a distance of dx so it 
 				// will come into contact with this.bouncedOff
 				// So its velocity must be changed to compensate (for conservation of Energy)
-				this.vx = -Math.sqrt(2*te/this.m)
+				// this.vx = -Math.sqrt(v0*v0 + 2*this.fx/this.m*dx)
+				console.log(dx);
 			}
 			// Was going left when it bounced
 			else {
@@ -140,6 +145,17 @@ Mobile.prototype.bounce = function(x,y,otherObject) {
 	if(y) {this.vy *= -1;}
 }
 
+Mobile.prototype.kineticE = function() {
+	return 0.5*this.m*this.vx*this.vx;
+}
+
+Mobile.prototype.potentialE =function() {
+	return 1*this.fx*this.posX;
+}
+
+Mobile.prototype.totalE = function() {
+	return this.kineticE() + this.potentialE();
+}
 /*****************************************************************************************************
 IMMOBILE
 Objects that don't move
@@ -218,29 +234,6 @@ Wall.prototype.checkForCollisions = function(mobile) {
 		mobile.bounce(true,false,this);
 	}
 }
-
-// Wall.prototype.checkForCollisions = function(mobile) {
-// 	// Mobile object going to the right
-// 	var rightEdgeNow = mobile.posX+mobile.bigness;
-// 	var rightEdgeFuture = rightEdgeNow + mobile.vx*dt/1000;
-// 	var rightEdgeBefore = rightEdgeNow - mobile.vx*dt/1000;
-
-// 	var leftEdgeNow = mobile.posX - mobile.bigness;
-// 	var leftEdgeFuture = leftEdgeNow + mobile.vx*dt/1000;
-// 	var leftEdgeBefore = leftEdgeNow - mobile.vx*dt/1000;
-
-// 	if(rightEdgeBefore<=this.posX && rightEdgeNow>=this.posX) {
-// 		mobile.bounce(true,false);
-// 		// mobile.posX=this.posX-mobile.bigness;
-// 	}
-// 	// Mobile Object going to the left
-// 	else if(leftEdgeBefore>=this.posX+this.thickness && leftEdgeNow<=this.posX+this.thickness){
-// 		mobile.bounce(true,false);
-// 		// mobile.posX=this.posX+mobile.bigness;
-// 	}
-// }
-
-
 
 /*********
 Platforms
