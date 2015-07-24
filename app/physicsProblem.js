@@ -1,5 +1,12 @@
+var shadow = new Thing(300,200);
+shadow.bigness=25;
+shadow.col='';
+shadow.path.rect((shadow.posX-shadow.bigness),(shadow.posY-shadow.bigness),(2*shadow.bigness),(2*shadow.bigness))
+shadow.initialize();
+
 var red = new Mobile(300,200);
 red.bigness = 25;
+red.mass=1;
 red.vx= 0;
 red.vy=0;
 // red.fy=-98;
@@ -8,24 +15,12 @@ red.shap='square';
 red.col='red';
 red.initialize();
 
-var shadow = new Thing(300,200);
-shadow.bigness=25;
-shadow.col='';
-shadow.path.rect((shadow.posX-shadow.bigness),(shadow.posY-shadow.bigness),(2*shadow.bigness),(2*shadow.bigness))
-shadow.initialize();
-// var blue = new Mobile(10,10);
-// blue.bigness = 50;
-// blue.vx= 250;
-// blue.vy=250;
-// blue.shap='circle';
-// blue.col='blue';
-// blue.initialize();
 
 
 var wall = new Wall(10,10,canvasHeight-20);
 wall.initialize();
 
-var wall2 = new Wall(510,10,canvasHeight-20);
+var wall2 = new Wall(505,10,canvasHeight-20);
 wall2.initialize();
 
 var wall3 = new Wall(760,10,canvasHeight-20);

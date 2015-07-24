@@ -7,9 +7,9 @@ canvas.width=canvasWidth;
 ctx.translate(0,canvasHeight);
 ctx.scale(1,-1);
 
-/*****
+/***************************************
 Adding gridlines as a background image
-*****/
+****************************************/
 var gridlines = document.createElement('canvas');
 gridlines.height=canvasHeight;
 gridlines.width=canvasWidth;
@@ -34,16 +34,16 @@ while(gridLinePosition<canvasHeight) {
 	gridLinePosition+=25;
 }// End of Gridline Code
 
-// Time Variables\
+// Time Variables
 var elapsedTime=0; // In milliseconds
 var t1;
 var t2;
 var dt; //milliseconds
 
 var timing = function() {
-	t2 = new Date();
-	dt = t2 - t1;
 	t1 = t2;
+	t2 = new Date();
+	dt = t2-t1;
 	elapsedTime +=dt;
 }
 
@@ -57,16 +57,20 @@ var drawEverything = function() {
 		timing();
 
 		for (var i=0;i<allThings.length;i++) {
-			// Draw Everything
-			allThings[i].draw(ctx);
 			if(allThings[i] instanceof Mobile){
 				// Check for collisions against each immobile object
+				for(var k = 0; k<allThings.length;k++) {
+					allThings[i].checkForCollisions(allThings[k],dt);
+				}
 				for(var j=0;j<allImmobiles.length;j++) {
 					allImmobiles[j].checkForCollisions(allThings[i]);
 				}
 				// Change properties of each mobile object
 				allThings[i].incrementTime(dt);
+				allThings[i].record();
 			};
+			// Draw Everything
+			allThings[i].draw(ctx);
 		};
 		window.requestAnimationFrame(drawEverything);
 	}
@@ -92,20 +96,33 @@ var oneFrameForward = function() {
 		ctx.clearRect(0,0,809,500);
 		ctx.drawImage(gridlines,0,0);	 
 		for (var i=0;i<allThings.length;i++) {
-			// Draw Everything
-			allThings[i].draw(ctx);
 			if(allThings[i] instanceof Mobile){
+				// Change properties of each mobile object
+				allThings[i].incrementTime(dt);
 				// Check for collisions against each immobile object
 				for(var j=0;j<allImmobiles.length;j++) {
 					allImmobiles[j].checkForCollisions(allThings[i]);
 				}
-				// Change properties of each mobile object
-				allThings[i].incrementTime(dt);
 			};
+			// Draw Everything
+			allThings[i].draw(ctx);
 		};
+	}
+}
+
+var printData = function() {
+	for (var i=0;i<red.dataT.length;i++) {
+		document.getElementById('dataBody').innerHTML+='<tr>'
+															+'<td>'+red.dataT[i]+'</td>'
+															+'<td>'+red.dataPos[i]+'</td>'
+															+'<td>'+red.dataV[i]+'</td>'
+															+'<td>'+red.dataF[i]+'</td>'
+														+'</tr>';
+
 	}
 }
 
 document.getElementById('playButton').addEventListener('mousedown', play);
 document.getElementById('pauseButton').addEventListener('mousedown', pause);
 document.getElementById('oneFrameForwardButton').addEventListener('mousedown', oneFrameForward);
+document.getElementById('printDataButton').addEventListener('mousedown', printData);

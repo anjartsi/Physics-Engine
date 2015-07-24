@@ -7,7 +7,7 @@
 </head>
 
 <body>
-	<div class='container' id='pageHeader'>
+	<header class='container' id='pageHeader'>
 		<h1>Physics</h1>
 		<div class='container' id='navBar'>
 			<ul>
@@ -17,7 +17,7 @@
 				<li><a href="../pills_riddle/pills_riddle.html">Pills Riddle</a></li>
 			</ul>
 		</div>
-	</div>
+	</header>
 
 	<br> <hr>
 	<div class='container' id='pageBody'>
@@ -27,14 +27,33 @@
 				<button class='btn' id='playButton'>Play</button>
 				<button class='btn' id='pauseButton'>Pause</button>
 				<button class='btn' id='oneFrameForwardButton'>One Frame Forward</button>
+				<button class='btn' id='printDataButton'>Print Data</button>
 
 			</div>
 		</div>
 	</div>
+	<br>
+	<div class='container' id='dataCont'>
+		<h1>Data</h1>
+		<table>
+			<thead>
+				<tr>
+					<th>Elapsed Time</th>
+					<th>Position</th>
+					<th>Velocity</th>
+					<th>Acceleration</th>
+				</tr>
+			</thead>
+			<tbody id='dataBody'>
+
+			</tbody>
+		</table>
+	</div>
+
 
 	<br><hr>
 
-	<div class='container' id='pageFooter'>By Armen Ourfalian</div>
+	<footer class='container' id='pageFooter'>By Armen Ourfalian</footer>
 </body>
 <script type="text/javascript" src="app/physicsClasses.js"></script>
 <script type="text/javascript" src="app/physicsEngine.js"></script>
