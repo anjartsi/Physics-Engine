@@ -1,21 +1,21 @@
 var shadow = new Thing(300,200);
 shadow.bigness=25;
-shadow.col='';
-shadow.path.rect((shadow.posX-shadow.bigness),(shadow.posY-shadow.bigness),(2*shadow.bigness),(2*shadow.bigness))
+shadow.col='black';
+shadow.path.rect((shadow.pos[0]-shadow.bigness),(shadow.pos[1]-shadow.bigness),(2*shadow.bigness),(2*shadow.bigness))
 shadow.initialize();
 
-var red = new Mobile(600,200);
+var red = new Mobile(300,200);
 red.bigness = 25;
 red.m = 1;
-red.v= [1000,0];
-red.f=[0,0]
+red.v= [100,00];
+red.f=[0,-500]
 red.shap='square';
 red.col='red';
 red.initialize();
 
 
 
-var wall = new Wall(10,10,canvasHeight-20);
+var wall = new Wall(210,10,canvasHeight-20);
 wall.initialize();
 
 var wall2 = new Wall(502,10,canvasHeight-20);
@@ -24,13 +24,12 @@ wall2.initialize();
 var wall3 = new Wall(760,10,canvasHeight-20);
 wall3.initialize();
 
-// var floor = new Immobile(10,10);
-// floor.shap='platform';
-// floor.initialize();
+var floor = new Platform(10,8,canvasWidth-20);
+floor.initialize();
 
-// var ceiling = new Immobile(10,450);
-// ceiling.shap='platform';
-// ceiling.initialize();
+var ceiling = new Platform(10,canvasHeight-20,canvasWidth-20);
+ceiling.initialize();
+
 
 // Draw everything 
 ctx.drawImage(gridlines,0,0);		

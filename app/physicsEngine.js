@@ -45,7 +45,7 @@ var dt; //milliseconds
 var timing = function() {
 	t1 = t2;
 	t2 = new Date();
-	dt = t2-t1;
+	dt = 17;
 	elapsedTime +=dt;
 }
 
@@ -62,9 +62,9 @@ var drawEverything = function() {
 		timing();
 
 		for (var i=0;i<allThings.length;i++) {
+			
 			if(allThings[i] instanceof Mobile){
-				
-				// Check for collisions against each immobile object
+				// Check for Collisions
 				for(var k = 0; k<allThings.length;k++) {
 					if(k!=i){
 						allThings[i].checkForCollisions(allThings[k],dt);
@@ -73,7 +73,7 @@ var drawEverything = function() {
 
 				// Change properties of each mobile object
 				allThings[i].incrementTime(dt);
-				
+
 			};
 			// Draw Everything
 			allThings[i].draw(ctx);
