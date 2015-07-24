@@ -34,7 +34,9 @@ while(gridLinePosition<canvasHeight) {
 	gridLinePosition+=25;
 }// End of Gridline Code
 
-// Time Variables
+/***************************************
+ Time Variables
+****************************************/
 var elapsedTime=0; // In milliseconds
 var t1;
 var t2;
@@ -48,6 +50,9 @@ var timing = function() {
 }
 
 
+/***************************************
+
+****************************************/
 var playing = null;
 
 var drawEverything = function() {
@@ -58,16 +63,17 @@ var drawEverything = function() {
 
 		for (var i=0;i<allThings.length;i++) {
 			if(allThings[i] instanceof Mobile){
+				
 				// Check for collisions against each immobile object
 				for(var k = 0; k<allThings.length;k++) {
-					allThings[i].checkForCollisions(allThings[k],dt);
+					if(k!=i){
+						allThings[i].checkForCollisions(allThings[k],dt);
+					}
 				}
-				for(var j=0;j<allImmobiles.length;j++) {
-					allImmobiles[j].checkForCollisions(allThings[i]);
-				}
+
 				// Change properties of each mobile object
 				allThings[i].incrementTime(dt);
-				allThings[i].record();
+				
 			};
 			// Draw Everything
 			allThings[i].draw(ctx);
@@ -76,7 +82,6 @@ var drawEverything = function() {
 	}
 }
 
-var minX = 100;
 var play = function() {
 	playing =true;
 	t1 = new Date();
