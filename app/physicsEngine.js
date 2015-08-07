@@ -1,5 +1,8 @@
+
 var canvas = document.getElementById('actionCanvas');
 var ctx = canvas.getContext('2d');
+// var canvasHeight = 500;
+// var canvasWidth= 500;
 var canvasHeight = 500
 var canvasWidth= 500*1.618034 //Estimation of the golden ratio
 canvas.height=canvasHeight;
@@ -10,29 +13,33 @@ ctx.scale(1,-1);
 /***************************************
 Adding gridlines as a background image
 ****************************************/
-var gridlines = document.createElement('canvas');
-gridlines.height=canvasHeight;
-gridlines.width=canvasWidth;
-var glctx=gridlines.getContext('2d');
+// Set this to true to draw gridlines
+var gl = false
+if(gl){
+	var gridlines = document.createElement('canvas');
+	gridlines.height=canvasHeight;
+	gridlines.width=canvasWidth;
+	var glctx=gridlines.getContext('2d');
 
-var gridLinePosition=1;
-glctx.strokeStyle='rgba(150,150,150,1)';
-glctx.setLineDash([2,2])
-glctx.beginPath();
-glctx.translate(0,0);
-while(gridLinePosition<canvasWidth) {
-	glctx.moveTo(gridLinePosition,0);
-	glctx.lineTo(gridLinePosition,canvasHeight);
-	glctx.stroke();
-	gridLinePosition+=25;
+	var gridLinePosition=1;
+	glctx.strokeStyle='rgba(150,150,150,1)';
+	glctx.setLineDash([2,2])
+	glctx.beginPath();
+	glctx.translate(0,0);
+	while(gridLinePosition<canvasWidth) {
+		glctx.moveTo(gridLinePosition,0);
+		glctx.lineTo(gridLinePosition,canvasHeight);
+		glctx.stroke();
+		gridLinePosition+=25;
+	}
+	gridLinePosition=1
+	while(gridLinePosition<canvasHeight) {
+		glctx.moveTo(0,gridLinePosition);
+		glctx.lineTo(canvasWidth,gridLinePosition);
+		glctx.stroke();
+		gridLinePosition+=25;
+	}
 }
-gridLinePosition=1
-while(gridLinePosition<canvasHeight) {
-	glctx.moveTo(0,gridLinePosition);
-	glctx.lineTo(canvasWidth,gridLinePosition);
-	glctx.stroke();
-	gridLinePosition+=25;
-}// End of Gridline Code
 
 /***************************************
  Time Variables
@@ -49,6 +56,17 @@ var timing = function() {
 	elapsedTime +=dt;
 }
 
+// Prints the time on the top right hand corner of the canvas
+var showTime = function(ctx, time) {
+	var t = time;
+	t/=1000;
+	t = t.toFixed(2);
+	ctx.save();
+	ctx.translate(10,canvasHeight-12);
+	ctx.scale(1,-1);
+	ctx.fillText("Time: "+t,0,0);
+	ctx.restore();
+}
 
 /***************************************
 
@@ -58,7 +76,7 @@ var playing = null;
 var drawEverything = function() {
 	if(playing){
 		ctx.clearRect(0,0,809,500);
-		ctx.drawImage(gridlines,0,0);	 
+		if(gl){ctx.drawImage(gridlines,0,0);}
 		timing();
 
 		for (var i=0;i<allThings.length;i++) {
@@ -78,16 +96,19 @@ var drawEverything = function() {
 			// Draw Everything
 			allThings[i].draw(ctx);
 		};
+		showTime(ctx, elapsedTime);
 		window.requestAnimationFrame(drawEverything);
 	}
 }
 
 var play = function() {
-	playing =true;
-	t1 = new Date();
-	t2 = new Date();	
-	window.requestAnimationFrame(drawEverything);
-	console.log('playing')
+	if(!playing) {
+		playing =true;
+		t1 = new Date();
+		t2 = new Date();	
+		window.requestAnimationFrame(drawEverything);
+		console.log('playing')
+	};
 }
 
 var pause = function() {
